@@ -54,7 +54,7 @@ After reviewing the commits, respond with **exactly one** of these comments:
 
 ### If there is exactly one commit (regardless of whether it aligns):
 ```
-### ✅🗜️ PR has one commit, please squash and merge.
+### ✅🗜️ PR has one commit, please "Squash and merge".
 ```
 
 ### If there are multiple commits and all align:
@@ -64,14 +64,14 @@ After reviewing the commits, respond with **exactly one** of these comments:
 
 ### If there are multiple commits and any does not align:
 ```
-### 🔴 PR does not align with commit rules
+### 🗜️ PR has multiple commits, please "Squash and merge".
 
-Please update your commits to follow Conventional Commits. The easiest way is to **squash your commits**, or you can use interactive rebase to update them individually.
+Alternatively you can update the commits (e.g. with interactive rebase) to align them with our commit rules.
 ```
 
 ## Important Notes
 
 - If there is only one commit, the PR must be **squashed** (✅🗜️) - no need to check if it aligns.
 - If there are multiple commits and ALL follow Conventional Commits, the PR aligns (✅).
-- If ANY commit does not follow the format or quality standards, the PR does not align (🔴).
+- If there are multiple commits and ANY does not align, ask to squash (🗜️).
 - Do not provide explanations or alternatives—only provide the specified response.
