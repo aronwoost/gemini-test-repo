@@ -42,12 +42,14 @@ After reviewing the commits, respond with **exactly one** of these comments:
 
 ### If any commit does not align:
 ```
-### 🔴 PR does not align with commit rules, you must squash.
+### 🔴 PR does not align with commit rules
+
+Please update your commits to follow Conventional Commits. The easiest way is to **squash your commits**, or you can use interactive rebase to update them individually.
 ```
 
 ## Important Notes
 
-- If there is only one commit, the dev must squash (PR does not align).
+- If there is only one commit, the dev needs to update it (PR does not align).
 - If there are multiple commits and ALL follow Conventional Commits, the PR aligns.
-- If ANY commit does not follow the format, the PR does not align (must squash).
+- If ANY commit does not follow the format, the PR does not align.
 - Do not provide explanations or alternatives—only provide the specified response.
