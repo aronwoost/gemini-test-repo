@@ -64,7 +64,7 @@ After reviewing the commits, respond with **exactly one** of these comments:
 
 ### If there are multiple commits and any does not align:
 ```
-### 🗜️ PR has multiple commits, please "Squash and merge".
+### 🗜️ PR does not align with commit rules, please "Squash and merge".
 
 Alternatively you can update the commits (e.g. with interactive rebase) to align them with our commit rules.
 ```
