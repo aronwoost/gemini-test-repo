@@ -50,19 +50,19 @@ Beyond following Conventional Commits format, commits must also meet these quali
 
 ## Your Response
 
-After reviewing the commits, respond with **exactly one** of these comments:
+**First, count the total number of commits in the PR.** Then respond with **exactly one** of these comments:
 
 ### If there is exactly one commit (regardless of whether it aligns):
 ```
 ### ✅🗜️ PR has one commit, please "Squash and merge".
 ```
 
-### If there are multiple commits and all align:
+### If there are multiple commits (2 or more) and all align:
 ```
 ### ✅ PR aligns with commit rules, feel free to merge with merge commit.
 ```
 
-### If there are multiple commits and any does not align:
+### If there are multiple commits (2 or more) and any does not align:
 ```
 ### 🗜️ PR does not align with commit rules, please "Squash and merge".
 
@@ -71,7 +71,8 @@ Alternatively you can update the commits (e.g. with interactive rebase) to align
 
 ## Important Notes
 
-- If there is only one commit, the PR must be **squashed** (✅🗜️) - no need to check if it aligns.
-- If there are multiple commits and ALL follow Conventional Commits, the PR aligns (✅).
-- If there are multiple commits and ANY does not align, ask to squash (🗜️).
+- **Count all commits in the PR carefully before responding.**
+- If there is exactly 1 commit, the PR must be **squashed** (✅🗜️) - no need to check if it aligns.
+- If there are 2 or more commits and ALL follow Conventional Commits, the PR aligns (✅).
+- If there are 2 or more commits and ANY does not align, ask to squash (🗜️).
 - Do not provide explanations or alternatives—only provide the specified response.
