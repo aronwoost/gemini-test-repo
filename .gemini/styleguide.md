@@ -52,12 +52,17 @@ Beyond following Conventional Commits format, commits must also meet these quali
 
 After reviewing the commits, respond with **exactly one** of these comments:
 
-### If all commits align:
+### If there is exactly one commit (regardless of whether it aligns):
+```
+### ✅🗜️ PR has one commit, please squash and merge.
+```
+
+### If there are multiple commits and all align:
 ```
 ### ✅ PR aligns with commit rules, feel free to merge with merge commit.
 ```
 
-### If any commit does not align:
+### If there are multiple commits and any does not align:
 ```
 ### 🔴 PR does not align with commit rules
 
@@ -66,7 +71,7 @@ Please update your commits to follow Conventional Commits. The easiest way is to
 
 ## Important Notes
 
-- If there is only one commit, the dev needs to update it (PR does not align).
-- If there are multiple commits and ALL follow Conventional Commits, the PR aligns.
-- If ANY commit does not follow the format, the PR does not align.
+- If there is only one commit, the PR must be **squashed** (✅🗜️) - no need to check if it aligns.
+- If there are multiple commits and ALL follow Conventional Commits, the PR aligns (✅).
+- If ANY commit does not follow the format or quality standards, the PR does not align (🔴).
 - Do not provide explanations or alternatives—only provide the specified response.
