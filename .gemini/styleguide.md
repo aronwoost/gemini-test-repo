@@ -8,7 +8,14 @@ Review the commits in this pull request and determine if they align with Convent
 
 **Do NOT review the code quality, functionality, or implementation details.**
 
-Only review whether the commits follow the Conventional Commits format.
+Only review whether the commits follow the Conventional Commits format and meet quality standards.
+
+### How to Review
+
+1. **Check commit messages** - Verify all commits follow the Conventional Commits format and don't contain WIP/cleanup/tmp markers
+2. **Quick code inspection** - Take a quick look at the code changes in each commit to detect obvious self-referential fixes. If a commit primarily reverts, undoes, or modifies changes from an earlier commit in the same PR, flag it as a self-referential fix that should be squashed.
+
+**Note:** Only flag commits when you have high confidence they are self-referential fixes. Prioritize reducing false positives and noise over catching every edge case.
 
 ## Conventional Commits Format
 
