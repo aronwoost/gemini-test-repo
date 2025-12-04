@@ -37,13 +37,19 @@ After reviewing the commits, respond with **exactly one** of these comments:
 
 ### If all commits align:
 ```
-PR aligns with commit rules, feel free to merge with merge commit
+# Commit review
+
+## PR aligns with commit rules, feel free to merge with merge commit
 ```
 
 ### If any commit does not align:
 ```
-PR does not align with commit rules, you must squash
+# Commit review
+
+## PR does not align with commit rules, you must squash
 ```
+
+**IMPORTANT: The heading must always be "Commit review" (not "Code review").**
 
 ## Important Notes
 
