@@ -45,8 +45,6 @@ After reviewing the commits, respond with **exactly one** of these comments:
 ### 🔴 PR does not align with commit rules, you must squash.
 ```
 
-**IMPORTANT: The heading must always be "Commit review" (not "Code review").**
-
 ## Important Notes
 
 - If there is only one commit, the dev must squash (PR does not align).
