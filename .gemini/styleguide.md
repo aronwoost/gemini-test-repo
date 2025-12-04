@@ -31,6 +31,16 @@ Valid commits must follow this pattern:
 - `refactor: simplify database query logic`
 - `chore: update dependencies`
 
+## Commit Quality Requirements
+
+Beyond following Conventional Commits format, commits must also meet these quality standards:
+
+1. **No WIP/cleanup/tmp commits** - Reject commits with messages like "WIP", "cleanup", "tmp", "work in progress", or similar placeholders. These should be squashed into proper commits before merging.
+
+2. **No self-referential fixes** - Reject commits that fix other commits within the same PR, such as "fix: address PR review comments" or "fix: previous commit". These indicate commits that should have been squashed together. The commits should be combined into a single, cohesive commit.
+
+3. **Production-ready only** - Every commit should represent a complete, standalone change that could logically be deployed to `main`. If a commit's sole purpose is to fix an earlier commit in the same PR, it should be squashed into that commit instead.
+
 ## Your Response
 
 After reviewing the commits, respond with **exactly one** of these comments:
