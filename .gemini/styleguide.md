@@ -13,9 +13,13 @@ Only review whether the commits follow the Conventional Commits format and meet 
 ### How to Review
 
 1. **Check commit messages** - Verify all commits follow the Conventional Commits format and don't contain WIP/cleanup/tmp markers
-2. **Quick code inspection** - Take a quick look at the code changes in each commit to detect obvious self-referential fixes. If a commit primarily reverts, undoes, or modifies changes from an earlier commit in the same PR, flag it as a self-referential fix that should be squashed.
+2. **Check for self-referential fixes** - Look for commits that explicitly fix or correct mistakes from earlier commits in the same PR (e.g., "fix typo from previous commit", or a commit that undoes/changes code from an earlier commit in the same PR)
 
-**Note:** Only flag commits when you have high confidence they are self-referential fixes. Prioritize reducing false positives and noise over catching every edge case.
+**Important distinctions:**
+- ✅ **Valid sequential commits**: "feat: add user model" → "feat: add user controller" (building upon each other)
+- ❌ **Self-referential fix**: "feat: add user model" → "fix: correct typo in user model" (fixing the previous commit)
+
+**Note:** Only flag commits when you have high confidence they are self-referential fixes. Prioritize reducing false positives. When in doubt, do not flag the commit.
 
 ## Conventional Commits Format
 
@@ -44,7 +48,17 @@ Beyond following Conventional Commits format, commits must also meet these quali
 
 1. **No WIP/cleanup/tmp commits** - Reject commits with messages like "WIP", "cleanup", "tmp", "work in progress", or similar placeholders. These should be squashed into proper commits before merging.
 
-2. **No self-referential fixes** - Reject commits that fix other commits within the same PR, such as "fix: address PR review comments" or "fix: previous commit". These indicate commits that should have been squashed together. The commits should be combined into a single, cohesive commit.
+2. **No self-referential fixes** - Reject commits that fix, correct, or undo other commits within the same PR. Examples:
+   - "fix: typo in previous commit"
+   - "fix: address review comments"
+   - "refactor: correct mistake from earlier"
+   - A commit that removes/changes code added by an earlier commit in the same PR
+   
+   **Important:** Sequential commits that build upon each other are NOT self-referential fixes. For example, these are valid:
+   - "feat: add user model" followed by "feat: add user controller"
+   - "feat: add paragraph 1" followed by "feat: add paragraph 2"
+   
+   Only flag a commit as self-referential if it explicitly fixes/corrects an error or mistake from a previous commit in the same PR.
 
 3. **Production-ready only** - Every commit should represent a complete, standalone change that could logically be deployed to `main`. If a commit's sole purpose is to fix an earlier commit in the same PR, it should be squashed into that commit instead.
 
