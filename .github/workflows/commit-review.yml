@@ -2,107 +2,11 @@ name: Commit Review
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
   workflow_dispatch:
-    inputs:
-      pr_number:
-        description: 'PR number to review (for manual testing)'
-        required: true
-        type: string
 
 jobs:
-  review-commits:
+  test:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: read
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Get PR commits and review
-        env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -e
-          
-          # Determine PR number (from event or manual input)
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            PR_NUMBER="${{ github.event.inputs.pr_number }}"
-            echo "Manual trigger for PR #$PR_NUMBER"
-            
-            # Fetch PR info using gh CLI
-            PR_INFO=$(gh pr view "$PR_NUMBER" --json baseRefName,headRefName,baseRefOid,headRefOid)
-            BASE_SHA=$(echo "$PR_INFO" | jq -r '.baseRefOid')
-            HEAD_SHA=$(echo "$PR_INFO" | jq -r '.headRefOid')
-          else
-            PR_NUMBER="${{ github.event.pull_request.number }}"
-            BASE_SHA="${{ github.event.pull_request.base.sha }}"
-            HEAD_SHA="${{ github.event.pull_request.head.sha }}"
-          fi
-          
-          echo "Reviewing PR #$PR_NUMBER"
-          echo "Base: $BASE_SHA"
-          echo "Head: $HEAD_SHA"
-          
-          # Fetch the head ref to make sure we have the commits
-          git fetch origin "$HEAD_SHA" --depth=100 2>/dev/null || true
-          
-          # Get commit messages
-          echo "=== Fetching commits ==="
-          COMMITS=$(git log --pretty=format:"- %s" "$BASE_SHA".."$HEAD_SHA")
-          COMMIT_COUNT=$(git rev-list --count "$BASE_SHA".."$HEAD_SHA")
-          
-          echo "Found $COMMIT_COUNT commit(s):"
-          echo "$COMMITS"
-          
-          # Get the diff
-          echo "=== Fetching diff ==="
-          DIFF=$(git diff "$BASE_SHA".."$HEAD_SHA" | head -c 50000)  # Limit diff size
-          
-          # Read the styleguide
-          STYLEGUIDE=$(cat .gemini/styleguide.md)
-          
-          # Build the prompt
-          PROMPT="$STYLEGUIDE
-
----
-
-## PR Information
-
-**Number of commits in this PR: $COMMIT_COUNT**
-
-### Commit messages:
-$COMMITS
-
-### Code diff:
-\`\`\`diff
-$DIFF
-\`\`\`
-
-Please review this PR according to the guidelines above."
-
-          # Call Gemini API
-          echo "=== Calling Gemini API ==="
-          RESPONSE=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=$GEMINI_API_KEY" \
-            -H 'Content-Type: application/json' \
-            -d "$(jq -n --arg prompt "$PROMPT" '{contents: [{parts: [{text: $prompt}]}]}')")
-          
-          # Extract the text response
-          REVIEW_COMMENT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text // "Error: Could not get response from Gemini API"')
-          
-          echo "=== Gemini Response ==="
-          echo "$REVIEW_COMMENT"
-          
-          # Post comment to PR
-          echo "=== Posting comment to PR ==="
-          gh pr comment "$PR_NUMBER" --body "## Commit Review
-
-$REVIEW_COMMENT
-
----
-<sub>🤖 Automated review by Gemini</sub>"
+      - name: Hello
+        run: echo "Hello, workflow is running!"
