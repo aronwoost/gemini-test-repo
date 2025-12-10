@@ -13,11 +13,15 @@ Only review whether the commits follow the Conventional Commits format and meet 
 ### How to Review
 
 1. **Check commit messages** - Verify all commits follow the Conventional Commits format and don't contain WIP/cleanup/tmp markers
-2. **Check for self-referential fixes** - Look for commits that explicitly fix or correct mistakes from earlier commits in the same PR (e.g., "fix typo from previous commit", or a commit that undoes/changes code from an earlier commit in the same PR)
+
+2. **Check for self-referential fixes** - You must examine both commit messages AND the code diff to detect these:
+   - Commit messages that explicitly reference previous commits (e.g., "fix typo from previous commit")
+   - **Code inspection required**: Check if a commit modifies/removes/improves code that was added by an earlier commit in the same PR. This may not be obvious from the commit message alone - you need to look at what files/code each commit touches.
 
 **Important distinctions:**
-- ✅ **Valid sequential commits**: "feat: add user model" → "feat: add user controller" (building upon each other)
-- ❌ **Self-referential fix**: "feat: add user model" → "fix: correct typo in user model" (fixing the previous commit)
+- ✅ **Valid sequential commits**: "feat: add user model" → "feat: add user controller" (different features, different files/code)
+- ❌ **Self-referential fix**: "feat: add user model" → "fix: correct typo in user model" (modifying the same code)
+- ❌ **Self-referential fix**: "feat: add user model" → "refactor: simplify user model" (improving code from the same PR)
 
 **Note:** Only flag commits when you have high confidence they are self-referential fixes. Prioritize reducing false positives. When in doubt, do not flag the commit.
 
