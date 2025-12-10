@@ -48,17 +48,19 @@ Beyond following Conventional Commits format, commits must also meet these quali
 
 1. **No WIP/cleanup/tmp commits** - Reject commits with messages like "WIP", "cleanup", "tmp", "work in progress", or similar placeholders. These should be squashed into proper commits before merging.
 
-2. **No self-referential fixes** - Reject commits that fix, correct, or undo other commits within the same PR. Examples:
+2. **No self-referential fixes** - Reject commits that fix, correct, refactor, or undo other commits within the same PR. Examples:
    - "fix: typo in previous commit"
    - "fix: address review comments"
-   - "refactor: correct mistake from earlier"
+   - "refactor: simplify user model" (when "feat: add user model" was in an earlier commit in the same PR)
+   - "refactor: improve code from previous commit"
    - A commit that removes/changes code added by an earlier commit in the same PR
    
    **Important:** Sequential commits that build upon each other are NOT self-referential fixes. For example, these are valid:
-   - "feat: add user model" followed by "feat: add user controller"
-   - "feat: add paragraph 1" followed by "feat: add paragraph 2"
+   - "feat: add user model" followed by "feat: add user controller" (different features)
+   - "feat: add paragraph 1" followed by "feat: add paragraph 2" (different content)
+   - "refactor: simplify authentication logic" (when the authentication code was added in a previous PR, not in this PR)
    
-   Only flag a commit as self-referential if it explicitly fixes/corrects an error or mistake from a previous commit in the same PR.
+   Only flag a commit as self-referential if it modifies, improves, or corrects code that was introduced by a previous commit **in the same PR**.
 
 3. **Production-ready only** - Every commit should represent a complete, standalone change that could logically be deployed to `main`. If a commit's sole purpose is to fix an earlier commit in the same PR, it should be squashed into that commit instead.
 
