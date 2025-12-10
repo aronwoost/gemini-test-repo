@@ -50,7 +50,7 @@ Beyond following Conventional Commits format, commits must also meet these quali
 
 ## Your Response
 
-**First, count the total number of commits in the PR by looking at the commit list.** Then respond with **exactly one** of these comments:
+**First, count the total number of commits in the PR by looking at the commit list.** Then respond with **exactly one** of these formats:
 
 ### If there are multiple commits (2 or more) and all align:
 ```
@@ -63,6 +63,8 @@ Beyond following Conventional Commits format, commits must also meet these quali
 
 Alternatively you can update the commits (e.g. with interactive rebase) to align them with our commit rules.
 ```
+
+After this message, provide a brief summary explaining which commits do not align and why (e.g., missing Conventional Commits format, WIP/cleanup markers, self-referential fixes).
 
 ### If there is exactly one commit (regardless of whether it aligns):
 ```
