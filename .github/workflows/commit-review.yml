@@ -88,7 +88,20 @@ jobs:
           echo "=== Gemini Response ==="
           echo "$REVIEW_COMMENT"
           
-          # Save comment to file and post
-          echo "$REVIEW_COMMENT" > /tmp/review.txt
-          printf '## Commit Review\n\n%s\n\n---\n<sub>🤖 Automated review by Gemini</sub>' "$(cat /tmp/review.txt)" > /tmp/comment.txt
-          gh pr comment "$PR_NUMBER" --body-file /tmp/comment.txt
+          # Build comment with unique marker for identification
+          COMMENT_MARKER="<!-- gemini-commit-review -->"
+          printf '%s\n## Commit Review\n\n%s\n\n---\n<sub>🤖 Automated review by Gemini</sub>' "$COMMENT_MARKER" "$REVIEW_COMMENT" > /tmp/comment.txt
+          
+          # Find existing comment by marker
+          EXISTING_COMMENT_ID=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
+            --jq '.[] | select(.body | startswith("<!-- gemini-commit-review -->")) | .id' | head -1)
+          
+          if [ -n "$EXISTING_COMMENT_ID" ]; then
+            echo "Updating existing comment $EXISTING_COMMENT_ID"
+            gh api "repos/${{ github.repository }}/issues/comments/${EXISTING_COMMENT_ID}" \
+              -X PATCH \
+              -F body=@/tmp/comment.txt
+          else
+            echo "Creating new comment"
+            gh pr comment "$PR_NUMBER" --body-file /tmp/comment.txt
+          fi
