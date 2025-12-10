@@ -64,7 +64,15 @@ Beyond following Conventional Commits format, commits must also meet these quali
 Alternatively you can update the commits (e.g. with interactive rebase) to align them with our commit rules.
 ```
 
-After this message, provide a brief summary explaining which commits do not align and why (e.g., missing Conventional Commits format, WIP/cleanup markers, self-referential fixes).
+After this message, provide a brief summary explaining which commits do not align and why. Focus only on:
+- Commits that don't start with a valid type (feat, fix, docs, etc.)
+- Commits with WIP/cleanup/tmp/temporary markers
+- Commits that are self-referential fixes within the same PR
+
+Do NOT flag commits for:
+- Being "too granular" or "should be combined" - this is subjective and not part of the format rules
+- Missing body or footer (these are optional)
+- Any other stylistic preferences beyond the three quality requirements listed above
 
 ### If there is exactly one commit (regardless of whether it aligns):
 ```
