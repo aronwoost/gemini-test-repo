@@ -50,14 +50,7 @@ Beyond following Conventional Commits format, commits must also meet these quali
 
 ## Your Response
 
-**First, count the total number of commits in the PR by looking at the commit list.** Then respond with **exactly one** of these comments.
-
-**Always start your response with the commit count for debugging purposes:**
-```
-_Debug: Found X commit(s) in this PR._
-```
-
-Then add the appropriate response:
+**First, count the total number of commits in the PR by looking at the commit list.** Then respond with **exactly one** of these comments:
 
 ### If there are multiple commits (2 or more) and all align:
 ```
