@@ -101,7 +101,8 @@ jobs:
             echo "Updating existing comment $EXISTING_COMMENT_ID"
             gh api "repos/${{ github.repository }}/issues/comments/${EXISTING_COMMENT_ID}" \
               -X PATCH \
-              -F body=@/tmp/comment.txt
+              -F body=@/tmp/comment.txt \
+              --silent
           else
             echo "Creating new comment"
             gh pr comment "$PR_NUMBER" --body-file /tmp/comment.txt
