@@ -109,6 +109,10 @@ jobs:
           
           # Add labels based on review result
           echo "=== Label Management ==="
+          echo "Review comment (first 500 chars):"
+          echo "$REVIEW_COMMENT" | head -c 500
+          echo ""
+          echo "---"
           echo "Checking review comment for label decision..."
           if echo "$REVIEW_COMMENT" | grep -qF "✅ PR aligns with commit rules"; then
             echo "✅ Detected: PR aligns - removing squash-merge label if present"
@@ -120,5 +124,8 @@ jobs:
             echo "Label addition completed"
           else
             echo "⚠️ No matching pattern found in review comment"
+            echo "Testing patterns individually:"
+            echo "$REVIEW_COMMENT" | grep "✅" || echo "  No ✅ found"
+            echo "$REVIEW_COMMENT" | grep "🗜️" || echo "  No 🗜️ found"
           fi
           echo "=== Label Management Complete ==="
