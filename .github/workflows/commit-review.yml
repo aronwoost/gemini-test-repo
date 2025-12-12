@@ -58,7 +58,7 @@ jobs:
           DIFF=$(git diff "$BASE_SHA".."$HEAD_SHA" | head -c 50000)
           
           # Read styleguide
-          STYLEGUIDE=$(cat .gemini/styleguide.md)
+          STYLEGUIDE=$(cat .github/commit-review-prompt.md)
           
           # Build prompt and save to file to avoid escaping issues
           cat > /tmp/prompt.txt << PROMPT_END
