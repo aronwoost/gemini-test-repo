@@ -16,12 +16,17 @@ Only review whether the commits follow the Conventional Commits format and meet 
 
 2. **Check for self-referential fixes** - You must examine both commit messages AND the code diff to detect these:
    - Commit messages that explicitly reference previous commits (e.g., "fix typo from previous commit")
-   - **Code inspection required**: Check if a commit modifies/removes/improves code that was added by an earlier commit in the same PR. This may not be obvious from the commit message alone - you need to look at what files/code each commit touches.
+   - **Code inspection required**: Check if a commit **changes, removes, or improves** code that was added by an earlier commit in the same PR. 
+   
+   **IMPORTANT:** Adding new content to the same file is NOT a self-referential fix. Only flag commits that modify existing lines from previous commits.
 
 **Important distinctions:**
-- ✅ **Valid sequential commits**: "feat: add user model" → "feat: add user controller" (different features, different files/code)
-- ❌ **Self-referential fix**: "feat: add user model" → "fix: correct typo in user model" (modifying the same code)
+- ✅ **Valid sequential commits**: "feat: add user model" → "feat: add user controller" (different features)
+- ✅ **Valid sequential commits**: "feat: add paragraph 1" → "feat: add paragraph 2" → "feat: add paragraph 3" (adding new content to the same file)
+- ✅ **Valid sequential commits**: "feat: add function A" → "feat: add function B" (adding new functions to the same file)
+- ❌ **Self-referential fix**: "feat: add user model" → "fix: correct typo in user model" (modifying existing code from previous commit)
 - ❌ **Self-referential fix**: "feat: add user model" → "refactor: simplify user model" (improving code from the same PR)
+- ❌ **Self-referential fix**: "feat: add paragraph" → "fix: rewrite paragraph" (changing content from previous commit)
 
 **Note:** Only flag commits when you have high confidence they are self-referential fixes. Prioritize reducing false positives. When in doubt, do not flag the commit.
 
@@ -57,14 +62,15 @@ Beyond following Conventional Commits format, commits must also meet these quali
    - "fix: address review comments"
    - "refactor: simplify user model" (when "feat: add user model" was in an earlier commit in the same PR)
    - "refactor: improve code from previous commit"
-   - A commit that removes/changes code added by an earlier commit in the same PR
+   - A commit that removes/changes existing code added by an earlier commit in the same PR
    
-   **Important:** Sequential commits that build upon each other are NOT self-referential fixes. For example, these are valid:
-   - "feat: add user model" followed by "feat: add user controller" (different features)
-   - "feat: add paragraph 1" followed by "feat: add paragraph 2" (different content)
+   **Important:** Sequential commits that build upon each other by **adding new content** are NOT self-referential fixes. These are valid:
+   - "feat: add user model" followed by "feat: add user controller" (different features, even in same file)
+   - "feat: add paragraph 1" followed by "feat: add paragraph 2" followed by "feat: add paragraph 3" (adding new content to same file)
+   - "feat: add function A" followed by "feat: add function B" (adding new functions to same file)
    - "refactor: simplify authentication logic" (when the authentication code was added in a previous PR, not in this PR)
    
-   Only flag a commit as self-referential if it modifies, improves, or corrects code that was introduced by a previous commit **in the same PR**.
+   Only flag a commit as self-referential if it **modifies, improves, or corrects existing code** that was introduced by a previous commit **in the same PR**. Simply touching the same file is not enough - the commit must actually change lines from a previous commit.
 
 3. **Production-ready only** - Every commit should represent a complete, standalone change that could logically be deployed to `main`. If a commit's sole purpose is to fix an earlier commit in the same PR, it should be squashed into that commit instead.
 
