@@ -125,7 +125,7 @@ After your explanation, always add this footnote:
 
 ### If there is exactly one commit (regardless of whether it aligns):
 ```
-### ✅🗜️ PR has one commit, please "Squash and merge".
+### 🗜️ PR has one commit, please "Squash and merge".
 ```
 
 ## Important Notes
