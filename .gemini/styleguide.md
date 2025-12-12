@@ -16,17 +16,31 @@ Only review whether the commits follow the Conventional Commits format and meet 
 
 2. **Check for self-referential fixes** - You must examine both commit messages AND the code diff to detect these:
    - Commit messages that explicitly reference previous commits (e.g., "fix typo from previous commit")
-   - **Code inspection required**: Check if a commit **changes, removes, or improves** code that was added by an earlier commit in the same PR. 
+   - **Code inspection required**: Look at the git diff for each commit. A self-referential fix is when a commit **deletes or modifies lines that were added** by an earlier commit in the same PR.
    
-   **IMPORTANT:** Adding new content to the same file is NOT a self-referential fix. Only flag commits that modify existing lines from previous commits.
+   **CRITICAL DISTINCTION:**
+   - ✅ **NOT a self-referential fix**: Lines with only `+` (additions) - this is adding NEW content
+   - ❌ **IS a self-referential fix**: Lines with `-` followed by `+` in the same area (deletions + modifications) - this is changing EXISTING content from a previous commit
+   
+   **Example git diffs:**
+   ```diff
+   # NOT self-referential (only adding new lines):
+   +paragraph 1
+   +paragraph 2
+   +paragraph 3
+   
+   # IS self-referential (changing existing lines):
+   -paragraph 1 with typo
+   +paragraph 1 corrected
+   ```
 
 **Important distinctions:**
 - ✅ **Valid sequential commits**: "feat: add user model" → "feat: add user controller" (different features)
-- ✅ **Valid sequential commits**: "feat: add paragraph 1" → "feat: add paragraph 2" → "feat: add paragraph 3" (adding new content to the same file)
-- ✅ **Valid sequential commits**: "feat: add function A" → "feat: add function B" (adding new functions to the same file)
-- ❌ **Self-referential fix**: "feat: add user model" → "fix: correct typo in user model" (modifying existing code from previous commit)
-- ❌ **Self-referential fix**: "feat: add user model" → "refactor: simplify user model" (improving code from the same PR)
-- ❌ **Self-referential fix**: "feat: add paragraph" → "fix: rewrite paragraph" (changing content from previous commit)
+- ✅ **Valid sequential commits**: "feat: add paragraph 1" → "feat: add paragraph 2" → "feat: add paragraph 3" (only `+` lines, adding new paragraphs)
+- ✅ **Valid sequential commits**: "feat: add function A" → "feat: add function B" (only `+` lines, adding new functions)
+- ❌ **Self-referential fix**: "feat: add user model" → "fix: correct typo in user model" (has `-` lines removing old content and `+` lines replacing it)
+- ❌ **Self-referential fix**: "feat: add user model" → "refactor: simplify user model" (has `-` and `+` lines changing the model)
+- ❌ **Self-referential fix**: "feat: add paragraph" → "fix: rewrite paragraph" (has `-` lines removing the old paragraph)
 
 **Note:** Only flag commits when you have high confidence they are self-referential fixes. Prioritize reducing false positives. When in doubt, do not flag the commit.
 
