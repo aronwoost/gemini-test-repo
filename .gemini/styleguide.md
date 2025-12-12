@@ -94,7 +94,10 @@ Do NOT flag commits for:
 - Missing body or footer (these are optional)
 - Any other stylistic preferences beyond the three quality requirements listed above
 
+After your explanation, always add this footnote:
+```
 <sub>**Note:** This validation is typically straightforward for AI, but occasional mistakes can happen. Please review the feedback and use your judgment. 🤝</sub>
+```
 
 ### If there is exactly one commit (regardless of whether it aligns):
 ```
