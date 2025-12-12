@@ -108,10 +108,10 @@ jobs:
           fi
           
           # Add labels based on review result
-          if echo "$REVIEW_COMMENT" | grep -q "✅ PR aligns with commit rules"; then
+          if echo "$REVIEW_COMMENT" | grep -qF "✅ PR aligns with commit rules"; then
             echo "PR aligns - removing squash-merge label if present"
             gh pr edit "$PR_NUMBER" --remove-label "squash-merge" 2>/dev/null || true
-          elif echo "$REVIEW_COMMENT" | grep -q "🗜️ PR does not align\|✅🗜️ PR has one commit"; then
+          elif echo "$REVIEW_COMMENT" | grep -E "🗜️ PR does not align|✅🗜️ PR has one commit" >/dev/null 2>&1; then
             echo "PR needs squash - adding squash-merge label"
             gh pr edit "$PR_NUMBER" --add-label "squash-merge"
           fi
