@@ -90,7 +90,7 @@ jobs:
           
           # Build comment with unique marker for identification
           COMMENT_MARKER="<!-- gemini-commit-review -->"
-          printf '%s\n## Commit Review\n\n%s' "$COMMENT_MARKER" "$REVIEW_COMMENT" > /tmp/comment.txt
+          printf '%s\n## 🧑‍💻 Commit Review\n\n%s' "$COMMENT_MARKER" "$REVIEW_COMMENT" > /tmp/comment.txt
           
           # Find existing comment by marker
           EXISTING_COMMENT_ID=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
