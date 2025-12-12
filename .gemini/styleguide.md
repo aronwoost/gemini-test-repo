@@ -16,36 +16,37 @@ Only review whether the commits follow the Conventional Commits format and meet 
 
 2. **Check for self-referential fixes** - A self-referential fix is when a commit **corrects, improves, or modifies** something that was introduced by an earlier commit **in the same PR**.
    
-   **CRITICAL: Adding new independent content is NOT a self-referential fix, even if it's in the same file.**
+   **ABSOLUTE RULE: If all commits use "add" or "implement" (not "fix", "refactor", "correct", "improve"), they are almost certainly NOT self-referential fixes.**
    
-   **Key questions to ask:**
-   - "Does this commit CHANGE or FIX something from an earlier commit?"  → Self-referential ❌
-   - "Does this commit ADD something completely new and different?" → Valid ✅
+   A self-referential fix requires one of these conditions:
+   - The commit message uses words like: "fix", "correct", "address", "improve", "refactor", "update", "change"
+   - AND it's clear from the message that it's modifying something from an earlier commit in the PR
    
-   **Examples to guide your judgment:**
+   **Key test:**
+   - All commits say "feat: add X", "feat: add Y", "feat: add Z" → **NOT self-referential** ✅
+   - Commits say "feat: add X" → "fix: correct X" → **IS self-referential** ❌
    
-   ✅ **VALID - Not self-referential (adding new independent things):**
-   - "feat: add user model" → "feat: add user controller" → "feat: add user service"
-     (Each adds a different component)
+   **Examples:**
+   
+   ✅ **VALID - Not self-referential:**
    - "feat: add paragraph 1" → "feat: add paragraph 2" → "feat: add paragraph 3"
-     (Each adds NEW paragraph, not modifying previous ones)
-   - "feat: add chapter 1" → "feat: add chapter 2" → "feat: add chapter 3"
-     (Each adds NEW chapter, not changing previous chapters)
+     (All use "add" - clearly adding new things)
+   - "feat: add user model" → "feat: add user controller" → "feat: add user service"
+     (All use "add" - clearly adding new things)
    - "feat: implement login" → "feat: implement logout"
-     (Different features)
+     (Both use "implement" - adding new features)
    
-   ❌ **INVALID - Self-referential (fixing/improving/changing previous commits):**
+   ❌ **INVALID - Self-referential:**
    - "feat: add user model" → "fix: correct typo in user model"
-     (CHANGES the user model from first commit)
-   - "feat: add authentication" → "refactor: simplify authentication code"
-     (IMPROVES code from first commit)
+     (Second uses "fix/correct" - fixing first commit)
+   - "feat: add authentication" → "refactor: simplify authentication"
+     (Second uses "refactor/simplify" - improving first commit)
    - "docs: add README" → "docs: fix grammar in README"
-     (CORRECTS the README from first commit)
+     (Second uses "fix" - correcting first commit)
    - "feat: add paragraph" → "fix: reword paragraph"
-     (MODIFIES the paragraph from first commit)
-   - Commit messages containing: "fix previous commit", "address review comments", "correct earlier mistake"
+     (Second uses "fix/reword" - modifying first commit)
 
-**Note:** Only flag commits when you have high confidence they are self-referential fixes. If a commit is adding new content (even to the same file), it is NOT self-referential. Prioritize reducing false positives. When in doubt, do not flag the commit.
+**Note:** When in doubt, do not flag the commit. If commits are consistently using "add" or "implement", they are adding new content, not fixing previous commits.
 
 ## Conventional Commits Format
 
