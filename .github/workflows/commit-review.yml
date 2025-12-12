@@ -105,3 +105,12 @@ jobs:
             echo "Creating new comment"
             gh pr comment "$PR_NUMBER" --body-file /tmp/comment.txt
           fi
+          
+          # Add labels based on review result
+          if echo "$REVIEW_COMMENT" | grep -q "✅ PR aligns with commit rules"; then
+            echo "PR aligns - removing squash-merge label if present"
+            gh pr edit "$PR_NUMBER" --remove-label "squash-merge" 2>/dev/null || true
+          elif echo "$REVIEW_COMMENT" | grep -q "🗜️ PR does not align\|✅🗜️ PR has one commit"; then
+            echo "PR needs squash - adding squash-merge label"
+            gh pr edit "$PR_NUMBER" --add-label "squash-merge"
+          fi
