@@ -26,7 +26,8 @@ jobs:
 
       - name: Get PR commits and review
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          AZURE_OPENAI_KEY: ${{ secrets.AZURE_OPENAI_KEY }}
+          AZURE_OPENAI_MODEL: ${{ secrets.AZURE_OPENAI_MODEL }}
           GH_TOKEN: ${{ github.token }}
         run: |
           set -e
@@ -79,23 +80,34 @@ jobs:
           Please review this PR according to the guidelines above.
           PROMPT_END
           
-          # Call Gemini API
-          RESPONSE=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=$GEMINI_API_KEY" \
+          # Call Azure OpenAI Responses API
+          PROMPT_TEXT=$(cat /tmp/prompt.txt)
+          
+          RESPONSE=$(curl -s "https://eastus.api.cognitive.microsoft.com/openai/responses?api-version=2025-04-01-preview" \
             -H 'Content-Type: application/json' \
-            -d "$(jq -n --rawfile prompt /tmp/prompt.txt '{contents: [{parts: [{text: $prompt}]}]}')")
+            -H "api-key: $AZURE_OPENAI_KEY" \
+            -d "$(jq -n --arg prompt "$PROMPT_TEXT" --arg model "$AZURE_OPENAI_MODEL" '{model: $model, input: $prompt}')")
           
-          REVIEW_COMMENT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text // "Error: Could not get response from Gemini API"')
-          
-          echo "=== Gemini Response ==="
+          # Extract text from Responses API format: output[].content[].text
+          REVIEW_COMMENT=$(echo "$RESPONSE" | jq -r '
+            if .output then
+              [.output[] | select(.type == "message") | .content[] | select(.type == "output_text") | .text] | join("\n")
+            elif .error then
+              "Error: " + .error.message
+            else
+              "Error: Could not get response from Azure OpenAI API"
+            end
+          ')
+          echo "=== Azure OpenAI Response ==="
           echo "$REVIEW_COMMENT"
           
           # Build comment with unique marker for identification
-          COMMENT_MARKER="<!-- gemini-commit-review -->"
+          COMMENT_MARKER="<!-- azure-commit-review -->"
           printf '%s\n## 🧑‍💻 Commit Review\n\n%s' "$COMMENT_MARKER" "$REVIEW_COMMENT" > /tmp/comment.txt
           
           # Find existing comment by marker
           EXISTING_COMMENT_ID=$(gh api "repos/${{ github.repository }}/issues/${PR_NUMBER}/comments" \
-            --jq '.[] | select(.body | startswith("<!-- gemini-commit-review -->")) | .id' | head -1)
+            --jq '.[] | select(.body | startswith("<!-- azure-commit-review -->")) | .id' | head -1)
           
           if [ -n "$EXISTING_COMMENT_ID" ]; then
             echo "Updating existing comment $EXISTING_COMMENT_ID"
