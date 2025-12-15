@@ -101,6 +101,8 @@ Beyond following Conventional Commits format, commits must also meet these quali
 ### ✅ PR aligns with commit rules, feel free to merge with merge commit.
 ```
 
+**Do not add any explanation or details when all commits align. Just the checkmark message above.**
+
 ### If there are multiple commits (2 or more) and any does not align:
 ```
 ### 🗜️ PR does not align with commit rules, please "Squash and merge".
@@ -118,15 +120,16 @@ Do NOT flag commits for:
 - Missing body or footer (these are optional)
 - Any other stylistic preferences beyond the three quality requirements listed above
 
-After your explanation, always add this footnote:
-```
+After your explanation, always add this footnote on a new line (not inside markdown code blocks):
+
 <sub>**Note:** This validation is typically straightforward for AI, but occasional mistakes can happen. Please review the feedback and use your judgment. 🤝</sub>
-```
 
 ### If there is exactly one commit (regardless of whether it aligns):
 ```
 ### 🗜️ PR has one commit, please "Squash and merge".
 ```
+
+**Do not add any explanation when there is only one commit. Just the message above.**
 
 ## Important Notes
 
