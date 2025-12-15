@@ -104,13 +104,16 @@ Beyond following Conventional Commits format, commits must also meet these quali
 **Do not add any explanation or details when all commits align. Just the checkmark message above.**
 
 ### If there are multiple commits (2 or more) and any does not align:
+
+Start with this exact text in a markdown code block:
+
 ```
 ### 🗜️ PR does not align with commit rules, please "Squash and merge".
 
 Alternatively you can update the commits (e.g. with interactive rebase) to align them with our commit rules.
 ```
 
-After this message, provide a brief summary explaining which commits do not align and why. Focus only on:
+Then immediately after the code block, provide a brief bullet point summary explaining which commits do not align and why. Focus only on:
 - Commits that don't start with a valid type (feat, fix, docs, etc.)
 - Commits with WIP/cleanup/tmp/temporary markers
 - Commits that are self-referential fixes within the same PR
@@ -120,7 +123,18 @@ Do NOT flag commits for:
 - Missing body or footer (these are optional)
 - Any other stylistic preferences beyond the three quality requirements listed above
 
-After your explanation, always add this footnote on a new line (not inside markdown code blocks):
+After your explanation, add this footnote on a new line:
+
+<sub>**Note:** This validation is typically straightforward for AI, but occasional mistakes can happen. Please review the feedback and use your judgment. 🤝</sub>
+
+Example of the complete response format:
+```
+### 🗜️ PR does not align with commit rules, please "Squash and merge".
+
+Alternatively you can update the commits (e.g. with interactive rebase) to align them with our commit rules.
+```
+
+- Commit "Fix typo in second paragraph" does not follow Conventional Commits (missing a valid type prefix like "fix:") and is a self-referential fix (it corrects the second paragraph added earlier in this PR).
 
 <sub>**Note:** This validation is typically straightforward for AI, but occasional mistakes can happen. Please review the feedback and use your judgment. 🤝</sub>
 
